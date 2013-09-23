@@ -1,7 +1,9 @@
 package queuesimulator;
+import display.*;
 
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.SynchronousQueue;
 
 
 /**
@@ -9,19 +11,46 @@ import java.io.*;
  * User: GP
  * Date: 07/09/13
  * Time: 8:49 AM
- * To change this template use File | Settings | File Templates.
  */
+
+/**
+ *  Class       : QueueSimulatorObject
+ *  Package     : queuesimulator
+ *
+ *  Class Description:
+ *             QueueSimulatorObject is the main class which the User will extend to create his custom QueueSimulator.
+ *             It has 2 Queues, entry and exit, and a list of counters, which can be dynamically initialised at run time
+ *             if required. It also contains the Display object used to display its simulation.
+ *
+ *  Scope for Implementation and Modification:
+ *              User just needs to extend this class, over-ride queueRandomGenerate (if required) and use it.
+ *              To start the simulation, you need to pass the class as an argument to a Simulator thread and start it.
+ *              This class is NOT meant to be modified.
+ */
+
 public class QueueSimulatorObject {
-    Queue<QueueMember> entry;
-    Queue<QueueMember> exit;
-    List<QueueCounter> counterList;
+
+    // the major components - entry queue, exit queue and counter list
+    public Queue<QueueMember> entry;
+    public Queue<QueueMember> exit;
+    public List<QueueCounter> counterList;
+
+    // pipe is used for inter-thread communication
+    SynchronousQueue<String> pipe;
+
+    // other data members
     int numberOfCounters;
     boolean isActive;
-    int populationSleepTime;
-    String probFile;
-//    QueueController controller = new QueueController();
+    boolean exitStarted;
+    float populationSleepTime;
+    int displayChoice;
+    int time;
 
-    public QueueSimulatorObject ( Queue<QueueMember> q1, Queue<QueueMember> q2, List<QueueCounter> cl){
+    // Display class for displaying
+    Display disp;
+
+    // parametrized constructor
+    public QueueSimulatorObject ( Queue<QueueMember> q1, Queue<QueueMember> q2, List<QueueCounter> cl, int disp){
         entry = q1;
         exit = q2;
         counterList = cl;
@@ -31,10 +60,15 @@ public class QueueSimulatorObject {
             counterList.get(i).queue = this;
         }
         isActive = true;
+        exitStarted = false;
+        displayChoice = disp;
+        time = 0;
+        this.disp = null;
+        pipe = new SynchronousQueue<String>();
         System.out.println("Population sleep time? ");
         BufferedReader inputBuffer = new BufferedReader( new InputStreamReader( System.in));
         try{
-            populationSleepTime = Integer.parseInt(inputBuffer.readLine());
+            populationSleepTime = Float.parseFloat(inputBuffer.readLine());
         }
         catch (Exception e){
             System.out.println("I/O Error :" + e.toString());
@@ -42,30 +76,42 @@ public class QueueSimulatorObject {
         }
     }
 
-//    public  QueueSimulatorObject (){
-//        entry = new LinkedList<QueueMember>();
-//        exit= new LinkedList<QueueMember>();
-//        counterList = new ArrayList<QueueCounter>(5);
-//        for(int i=0; i<5; i++){
-//            QueueCounter counter = new QueueCounter(20, i);
-//            counterList.add(i,counter);
-//        }
-//        numberOfCounters = counterList.size();
-//        System.out.println(numberOfCounters);
-//        isActive = true;
-//        populationSleepTime = 2;
-//    }
+    // default constructor
+    public  QueueSimulatorObject (){
+        entry = null;
+        exit = null;
+        counterList = null;
+        numberOfCounters = 0;
+        isActive = true;
+        exitStarted = false;
+        populationSleepTime = 0;
+        displayChoice = 0;
+        time = 0;
+        pipe = null;
+        disp = null;
+    }
 
-//    public QueueSimulatorObject (int n){
-//        entry = new LinkedList<QueueMember>();
-//        exit = new LinkedList<QueueMember>();
-//        counterList = new ArrayList<QueueCounter>(n);
-//        for (QueueCounter counter : counterList ) {
-//                   counter = new QueueCounter(20,1);
-//        }
-//        isActive=true;
-//        populationSleepTime = 2;
-//    }
+    // random number generator
+    public int queueRandomGenerate(){
+        Random random = new Random();
+        return random.nextInt(10);
+    }
 
+    // accessor functions
+    public boolean isActive(){
+        return isActive;
+    }
+
+    public int getTime(){
+        return time;
+    }
+
+    public SynchronousQueue<String> getPipe(){
+        return pipe;
+    }
+
+    public boolean isExitStarted(){
+        return exitStarted;
+    }
 
 }

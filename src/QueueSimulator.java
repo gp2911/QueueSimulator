@@ -11,20 +11,24 @@ import java.io.*;
  * User: GP
  * Date: 07/09/13
  * Time: 8:41 AM
- * To change this template use File | Settings | File Templates.
  *
- * TODO: Variable probability distribution function
  */
 
+/**
+ * Main class
+ */
 public class QueueSimulator {
+
+
+
     public static void main( String args[] ){
-        int time=2;
         int numOfCounters=0;
-        boolean repeat = false;
-        Queue<QueueMember> entryList= new LinkedList<QueueMember>();
-        Queue<QueueMember> exitList = new LinkedList<QueueMember>();
+        boolean repeat = false;                                 // should I display the menu again?
+        int reqId = 0;
+        Queue<QueueMember> entryList= new LinkedList<QueueMember>();      // creating entry and
+        Queue<QueueMember> exitList = new LinkedList<QueueMember>();      // exit queues
         BufferedReader inputBuffer = new BufferedReader( new InputStreamReader( System.in));
-        System.out.print("How many counters?   ");
+        System.out.print("Enter number of counters:   ");       // prompt user to enter number of counters
         try{
             numOfCounters = Integer.parseInt(inputBuffer.readLine());
         }
@@ -33,7 +37,7 @@ public class QueueSimulator {
             e.printStackTrace();
         }
         List<QueueCounter> queueCounters = new ArrayList<QueueCounter>(numOfCounters);
-        System.out.print("Initialise all counters?   ");
+        System.out.print("Initialise all counters?   ");        // user initialised counters or default?
         char choice = 'x';
         do{
             repeat = false;
@@ -45,23 +49,27 @@ public class QueueSimulator {
                 e.printStackTrace();
             }
             if(choice == 'y'){
+
+                // if user wants to initialize counters
                 for (int i=1; i <= numOfCounters; i++){
                     System.out.print("Stock to be filled in counter "+ i +" ?       ");
                     int stock = 0;
                     try{
-                        stock = Integer.parseInt(inputBuffer.readLine());
+                        stock = Integer.parseInt(inputBuffer.readLine());  //accept user' value for counter's stock
                     }
                     catch (Exception e){
                         System.out.println(e.toString());
                         e.printStackTrace();
                     }
-                    QueueCounter counter = new QueueCounter(stock, i);
+                    QueueCounter counter = new QueueCounter(stock, i);     //create a new counter with stock number if items
                     queueCounters.add(counter);
                 }
             }
+
             else if(choice == 'n'){
+                // if user wants default values (default stock = 20)
                 for (int i=1; i <= numOfCounters; i++){
-                    QueueCounter counter = new QueueCounter(20, i);
+                    QueueCounter counter = new QueueCounter(20, i);         //create a new counter with 20 items
                     queueCounters.add(counter);
                 }
             }
@@ -71,10 +79,36 @@ public class QueueSimulator {
             }
         } while (repeat == true);
 
-        QueueSimulatorObject q = new QueueSimulatorObject( entryList, exitList, queueCounters);
+        // Menu for user's choice of display
+        System.out.println("Choice of display?  ");
+        System.out.println("1. Display by Request");
+        System.out.println("2. Display by Counter");
+        System.out.println("3. Display by Entry Queue");
+        System.out.println("4. Display by Exit Queue");
 
+        int dispChoice = 0;
+
+        do{
+            repeat = false;
+            try{
+                dispChoice = Integer.parseInt(inputBuffer.readLine());
+            }
+            catch (Exception e){
+                System.out.println( e.toString());
+                e.printStackTrace();
+            }
+            if(dispChoice < 1 || dispChoice > 4){
+                System.out.println("Enter 1, 2, 3 or 4 only");
+                repeat = true;
+            }
+        } while (repeat == true);
+
+        //create a QueueSimulatorObject as per user's requirenments and simulate it
+        //QueueSimulatorObject q = new QueueSimulatorObject( entryList, exitList, queueCounters, dispChoice-1);
+        QueueSimulatorObject q = new CustomQueueSimulator(entryList, exitList, queueCounters, dispChoice-1);
         Simulator s = new Simulator(q);
         s.start();
 
     }
+
 }
