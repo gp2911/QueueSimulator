@@ -32,12 +32,11 @@ import java.util.concurrent.*;
 
 
 public class Simulator extends Thread{
-    QueueSimulatorObject q;
-    QueuePopulater populater;
-    QueueController controller;
-    ExitQueueHandler exitGuard;
-    Timer timer;
-    Display disp;
+    private QueueSimulatorObject q;
+    private QueuePopulater populater;
+    private QueueController controller;
+    private ExitQueueHandler exitGuard;
+    private Timer timer;
     public void run(){
         System.out.println("Simulating queue...");
         // Start off all the threads

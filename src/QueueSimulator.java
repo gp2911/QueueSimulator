@@ -15,7 +15,13 @@ import java.io.*;
  */
 
 /**
- * Main class
+ *
+ *  Class       : QueueSimulator
+ *  Package     : default
+ *
+ *  Main class.
+ *  End user who is going to use my package must write a similar class. But nothing special... it just
+ *  initialises the CustomQueueSimulator object and starts it off.
  */
 public class QueueSimulator {
 
@@ -104,7 +110,6 @@ public class QueueSimulator {
         } while (repeat == true);
 
         //create a QueueSimulatorObject as per user's requirenments and simulate it
-        //QueueSimulatorObject q = new QueueSimulatorObject( entryList, exitList, queueCounters, dispChoice-1);
         QueueSimulatorObject q = new CustomQueueSimulator(entryList, exitList, queueCounters, dispChoice-1);
         Simulator s = new Simulator(q);
         s.start();

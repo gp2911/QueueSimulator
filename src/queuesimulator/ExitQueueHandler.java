@@ -25,7 +25,7 @@ package queuesimulator;
  */
 
 public class ExitQueueHandler extends Thread {
-    QueueSimulatorObject q;
+    private QueueSimulatorObject q;
     public void run(){
         System.out.println("ExitQueueHandler started...");
 

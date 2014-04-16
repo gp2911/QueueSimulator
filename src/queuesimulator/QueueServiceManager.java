@@ -28,9 +28,9 @@ package queuesimulator;
  */
 
 public class QueueServiceManager extends Thread {
-    QueueCounter counter;
-    QueueMember member;
-    QueueSimulatorObject queue;
+    private QueueCounter counter;
+    private QueueMember member;
+    private QueueSimulatorObject queue;
 
     // Parametrized consructor
     public QueueServiceManager ( QueueCounter c, QueueMember m, QueueSimulatorObject q){
@@ -121,7 +121,7 @@ public class QueueServiceManager extends Thread {
             }
 
             try{
-                queue.pipe.put("counter: Counter "+ counter.index +1 + " out of stock! Closing down now...");
+                queue.pipe.put("counter: Counter "+ Integer.toString(counter.index) + " out of stock! Closing down now...");
                 queue.pipe.put(Integer.toString(counter.index));
             }
             catch (Exception e){

@@ -35,7 +35,7 @@ public class DisplayByCounter extends Thread{
     }
 
     public void run(){
-        System.out.println("Display by counter...counter number = " + counterId);
+        System.out.println("Display by counter...counter number = " + Integer.toString(counterId+1));
         String log = null;
         String tmp = null;
         int reqId = 0;
@@ -47,7 +47,7 @@ public class DisplayByCounter extends Thread{
                     // This is a counter type alert. Maybe it is important.
                     // Read from pipe again to get the counter index.
                     tmp = pipe.take();
-                    while(!Character.isDigit(tmp.charAt(0)) && !tmp.startsWith("counter"))
+                    while(!Character.isDigit(tmp.charAt(0)))
                         //Maybe I just read some other alert...check if the string starts with a digit.
                         //If not, read again.
                         tmp = pipe.take();

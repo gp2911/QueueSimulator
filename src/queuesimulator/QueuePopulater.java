@@ -26,7 +26,7 @@ import java.util.*;
 
 public class QueuePopulater extends Thread{
 
-    QueueSimulatorObject q;
+    private QueueSimulatorObject q;
     public void run(){
         System.out.println("Populater ready...");
         for (int idx = 1; q.isActive == true ; ++idx){

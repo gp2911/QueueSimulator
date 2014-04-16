@@ -51,7 +51,7 @@ public class DisplayByExitQueue extends Thread {
 
                 // exit when exit queue is empty
                 QueueMember next=q.exit.peek();
-                if(next==null && q.isExitStarted()){
+                if(next==null && q.isExitStarted() && q.isActive() == false){
                     System.out.println("Exit Queue empty");
                     System.exit(0);
                 }

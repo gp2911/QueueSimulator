@@ -24,7 +24,7 @@ import java.util.concurrent.SynchronousQueue;
  *              that has sufficient stock n all. This can be done without majorly changing the code.
  */
 public class QueueController extends Thread {
-    QueueSimulatorObject q;
+    private QueueSimulatorObject q;
     public void run(){
         System.out.println("Controller ready...");
         boolean allBusy = false;                       // are all the counters busy?

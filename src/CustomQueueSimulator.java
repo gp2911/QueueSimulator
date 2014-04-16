@@ -9,13 +9,15 @@ import  queuesimulator.*;
 
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  *
  *  Class       : CustomQueueSimulator
  *  Package     : default
  *
- *  Class Description: My custom queue simulator obtained by extending QueueSimulatorObject
+ *  Class Description: My custom queue simulator obtained by extending QueueSimulatorObject (and overriding
+ *   queueRandomGenerate() if required) .
  */
 public class CustomQueueSimulator extends QueueSimulatorObject{
 
@@ -23,4 +25,11 @@ public class CustomQueueSimulator extends QueueSimulatorObject{
     public  CustomQueueSimulator( Queue<QueueMember> q1, Queue<QueueMember> q2, List<QueueCounter> cl, int disp){
         super(q1, q2, cl, disp);
     }
+
+
+//    @Override
+//    public int queueRandomGenerate(){
+//        Random random = new Random();
+//        return random.nextInt(10);
+//    }
 }

@@ -55,7 +55,7 @@ public class QueueSimulatorObject {
         exit = q2;
         counterList = cl;
         numberOfCounters = counterList.size();
-        System.out.println(numberOfCounters);
+//        System.out.println(numberOfCounters);
         for(int i=0; i< numberOfCounters; i++){
             counterList.get(i).queue = this;
         }
